@@ -5,6 +5,7 @@ import Index from "./component/index";
 import Navbar from "./component/navbar";
 import UserLogin from "./component/login";
 import UserRegister from "./component/register";
+import AddProject from "./component/add-project";
 
 function App() {
   setTimeout(function () {
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/" component={Index} />
         <Route exact path="/login" component={UserLogin} />
         <Route exact path="/register" component={UserRegister} />
+        <Route exact path="/add-project" component={AddProject} />
       </Switch>
     </BrowserRouter>
   );
