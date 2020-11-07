@@ -41,6 +41,9 @@ class Navbar extends Component {
                             <li className="nav-item" hidden={!this.isAdmin()}>
                                 <a className="nav-link" href="/add-project">Add project</a>
                             </li>
+                            <li className="nav-item" hidden={!this.isAdmin()}>
+                                <a className="nav-link" href="/add-task">Add task</a>
+                            </li>
                         </ul>
 
                     </div>
@@ -70,6 +73,9 @@ class Navbar extends Component {
                 localStorage.removeItem('token');
                 window.location.reload();
             }
+        }).catch(error => {
+            console.log(error);
+            localStorage.removeItem('token');
         });
     }
 
