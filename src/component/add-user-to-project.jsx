@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 
-class UserLogin extends Component {
+class AddUserToProject extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: null,
-            password: null,
-            hideInvalidUsernamePassword: true,
-            seen: false,
-            emailSent: false
+            projectName: null,
         };
     }
 
@@ -17,7 +14,7 @@ class UserLogin extends Component {
             <React.Fragment>
                 <div className="col-md-4 mt-4 container">
                     <div className="text-center border-light p-5">
-                        <p className="h4 mb-4">Login</p>
+                        <p className="h4 mb-4">Add User to Project</p>
                         <div className="form-group">
                             <input
                                 onChange={this.changeInputField}
@@ -28,20 +25,18 @@ class UserLogin extends Component {
                                 placeholder="Username"
                             />
                         </div>
-                        <div id="passwordField" className="form-group">
+                        <div className="form-group">
                             <input
                                 onChange={this.changeInputField}
-                                name="password"
-                                type="password"
+                                name="projectName"
+                                type="text"
                                 className="form-control"
-                                id="passwordInputField"
-                                placeholder="Password"
+                                id="projectNameInputField"
+                                placeholder="Project Name"
                             />
                         </div>
-                        <div hidden={this.state.hideInvalidUsernamePassword} className="text-danger mb-3">Invalid username or password
-                            </div>
-                        <button onClick={this.loginUser} className="btn btn-info btn-block">
-                            Login
+                        <button onClick={this.addProject} className="btn btn-info btn-block">
+                            Add
                             </button>
                     </div>
                 </div>
@@ -49,27 +44,29 @@ class UserLogin extends Component {
         );
     }
 
-    loginUser = () => {
+    addProject = () => {
+        const token = localStorage.getItem('token');
         const currentThis = this;
-        const loginForm = {
+        const addUserToProjectName = {
             username: currentThis.state.username,
-            password: currentThis.state.password
+            projectName: currentThis.state.projectName
         };
-        fetch(process.env.REACT_APP_URL + '/authenticate', {
+        fetch(process.env.REACT_APP_URL + '/projects/add-user-to-project', {
             method: 'POST',
-            body: JSON.stringify(loginForm),
+            body: JSON.stringify(addUserToProjectName),
             headers: {
+                'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json'
             }
         }).then(async response => {
-            const jsonResponse = await response.json();
+            await response.json();
             if (response.status !== 200) {
-                alert("Invalid login!");
+                alert("The user hasn't been added to the project!");
+                return;
             }
-            localStorage.setItem('token', jsonResponse['token']);
+            alert("The user has been added to the project!");
             window.location.href = '/';
-        })
-            .catch(error => alert(error));
+        }).catch(error => alert(error));
     }
 
     changeInputField = event => {
@@ -79,4 +76,4 @@ class UserLogin extends Component {
     };
 }
 
-export default UserLogin;
+export default AddUserToProject;

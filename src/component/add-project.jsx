@@ -62,7 +62,7 @@ class AddProject extends Component {
                 alert("The project hasn't been added!");
                 return;
             }
-            alert("The task has been added!");
+            alert("The project has been added!");
             window.location.href = '/';
         }).catch(error => alert(error));
     }

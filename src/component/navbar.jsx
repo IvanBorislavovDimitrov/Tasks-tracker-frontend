@@ -11,7 +11,7 @@ class Navbar extends Component {
     render() {
         let isLoggedIn = false;
         const token = localStorage.getItem('token');
-        if (token !== null && token !== undefined) {
+        if (token !== null && token !== undefined && token != "undefined") {
             isLoggedIn = true;
         }
 
@@ -44,6 +44,9 @@ class Navbar extends Component {
                             <li className="nav-item" hidden={!this.isAdmin()}>
                                 <a className="nav-link" href="/add-task">Add task</a>
                             </li>
+                            <li className="nav-item" hidden={!this.isAdmin()}>
+                                <a className="nav-link" href="/add-user-to-project">Add user to project</a>
+                            </li>
                         </ul>
 
                     </div>
@@ -59,7 +62,7 @@ class Navbar extends Component {
 
     isStillLoggedIn = () => {
         const token = localStorage.getItem('token');
-        if (token == undefined || token == null) {
+        if (token == undefined || token == null && token != "undefined") {
             return;
         }
         fetch(process.env.REACT_APP_URL + '/validate', {
