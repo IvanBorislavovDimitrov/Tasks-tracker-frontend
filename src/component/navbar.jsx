@@ -33,7 +33,7 @@ class Navbar extends Component {
                                 <a className="nav-link" href="/register">Register</a>
                             </li>
                             <li className="nav-item" hidden={!isLoggedIn}>
-                                <a className="nav-link" href="/register">Browse</a>
+                                <a className="nav-link" href="/my-projects">My Projects</a>
                             </li>
                             <li className="nav-item" hidden={!isLoggedIn}>
                                 <a href="javascript:void(0)" className="nav-link" onClick={this.logout}>Logout</a>
