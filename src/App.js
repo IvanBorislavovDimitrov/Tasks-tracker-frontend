@@ -10,6 +10,7 @@ import AddTask from "./component/add-task";
 import AddUserToProject from "./component/add-user-to-project";
 import MyProjects from "./component/my-projects";
 import ProjectTasks from "./component/project-tasks";
+import ProjectInfo from "./component/project-info";
 
 function App() {
   setTimeout(function () {
@@ -28,6 +29,8 @@ function App() {
         <Route exact path="/add-user-to-project" component={AddUserToProject} />
         <Route exact path="/my-projects" component={MyProjects} />
         <Route path="/project-tasks" component={ProjectTasks} />
+        <Route path="/projects" component={ProjectInfo} />
+
       </Switch>
     </BrowserRouter>
   );
