@@ -4736,6 +4736,24 @@
    border: 1px solid rgba(223, 215, 202, 0.75);
    border-radius: 0.25rem;
  }
+
+ .card-advanced {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(223, 215, 202, 0.75);
+  border-radius: 0.25rem;
+  margin: 0 auto; /* Added */
+  float: none; /* Added */
+  margin-bottom: 10px; /* Added */
+
+}
  
  .card > hr {
    margin-right: 0;
