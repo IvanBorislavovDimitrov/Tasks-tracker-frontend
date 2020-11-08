@@ -6,6 +6,7 @@ class AddProject extends Component {
         this.state = {
             name: null,
             description: null,
+            picture: null,
         };
     }
 
@@ -33,6 +34,18 @@ class AddProject extends Component {
                                 placeholder="Description"
                                 rows="3"></textarea>
                         </div>
+                        <div className="form-group">
+                            <small id="fileHelp" className="form-text text-muted">Picture</small>
+                            <input
+                                onChange={this.changeInputField}
+                                ref={this.picture}
+                                type="file"
+                                className="custom-file"
+                                id="picture"
+                                aria-describedby="fileHelp"
+                                name="Picture"
+                            />
+                        </div>
                         <button onClick={this.addProject} className="btn btn-info btn-block">
                             Add
                             </button>
@@ -45,16 +58,16 @@ class AddProject extends Component {
     addProject = () => {
         const token = localStorage.getItem('token');
         const currentThis = this;
-        const addProjectForm = {
-            name: currentThis.state.name,
-            description: currentThis.state.description
-        };
+        const addProjectForm = new FormData();
+        addProjectForm.append('name', currentThis.state.name);
+        addProjectForm.append('description', currentThis.state.description);
+        const picture = document.getElementById('picture');
+        addProjectForm.append('picture', picture.files[0]);
         fetch(process.env.REACT_APP_URL + '/projects/create', {
             method: 'POST',
-            body: JSON.stringify(addProjectForm),
+            body: addProjectForm,
             headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
+                'Authorization': 'Bearer ' + token
             }
         }).then(async response => {
             await response.json();
