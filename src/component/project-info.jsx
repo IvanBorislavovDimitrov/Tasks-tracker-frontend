@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 
 class ProjectInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            projectName: null
+            projectName: null,
+            projectDescription: null,
+            pictureResource: null
         };
     }
 
@@ -14,37 +17,25 @@ class ProjectInfo extends Component {
                 <div class="container">
 
                     <div class="row">
-
-                        <div class="col-lg-3">
-                            <h1 class="my-4">Shop Name</h1>
-                            <div class="list-group">
-                                <a href="#" class="list-group-item active">Category 1</a>
-                                <a href="#" class="list-group-item">Category 2</a>
-                                <a href="#" class="list-group-item">Category 3</a>
-                            </div>
-                        </div>
-
                         <div class="col-lg-9">
 
                             <div class="card mt-4">
-                                <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="" />
+                                <div id="pic">
+
+
+                                </div>
                                 <div class="card-body">
-                                    <h3 class="card-title">Product Name</h3>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
+                                    <h3 class="card-title">{this.state.projectName}</h3>
+                                    <p class="card-text">{this.state.projectDescription}</p>
                                 </div>
                             </div>
 
                             <div class="card card-outline-secondary my-4">
                                 <div class="card-header">
-                                    Product Reviews
+                                    Comments
       </div>
-                                <div class="card-body">
-                                    <div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                                        <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                                        <hr />
-                                    </div>
-                                    <a href="#" class="btn btn-success">Leave a Review</a>
+                                <div id="commendSection" class="card-body">
+
                                 </div>
                             </div>
 
@@ -63,8 +54,58 @@ class ProjectInfo extends Component {
     }
 
     loadProject = () => {
+        const currentThis = this;
         const projectId = this.getProjectIdFromUrl();
-        
+        const token = 'Bearer ' + localStorage.getItem('token');
+        fetch(process.env.REACT_APP_URL + '/projects/' + projectId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        }).then(async response => {
+            const project = await response.json();
+            if (response.status !== 200) {
+                alert("The project was not loaded");
+                return;
+            }
+            currentThis.setState({
+                projectName: project['name'],
+                projectDescription: project['description'],
+                pictureResource: process.env.REACT_APP_URL + '/resources/projects/' + projectId
+            });
+            const commentsArray = [];
+            project['comments'].forEach(comment => {
+                const commentDiv = (<div>
+                    <p>text</p>
+                    <small class="text-muted">text</small>
+                    <hr />
+                </div>);
+                commentDiv.push(commentDiv);
+            });
+            const addCommentHref = "/projects/comments/" + projectId;
+            commentsArray.push((<a href={addCommentHref} class="btn btn-success mt-2">Leave a Review</a>));
+            const commentSection = document.getElementById('commendSection');
+            ReactDOM.render(commentsArray, commentSection);
+            this.loadPicture(projectId);
+        }).catch(error => {
+            alert(error);
+        })
+    }
+
+    loadPicture = (projectId) => {
+        fetch(process.env.REACT_APP_URL + '/resources/projects/' + projectId, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }).then(response => response.blob())
+            .then(image => {
+                const picElement = document.getElementById('pic');
+                const outside = URL.createObjectURL(image);
+                const pic = (<img class="card-img-top img-fluid" src={outside} alt="" />);
+                ReactDOM.render(pic, picElement);
+            })
     }
 
     getProjectIdFromUrl = () => {
