@@ -77,13 +77,13 @@ class ProjectInfo extends Component {
             const commentsArray = [];
             project['comments'].forEach(comment => {
                 const commentDiv = (<div>
-                    <p>text</p>
-                    <small class="text-muted">text</small>
+                    <p>{comment['description']}</p>
+                    <small all class="text-muted">Posted by: {comment['author']['username']}</small>
                     <hr />
                 </div>);
-                commentDiv.push(commentDiv);
+                commentsArray.push(commentDiv);
             });
-            const addCommentHref = "/projects/comments/" + projectId;
+            const addCommentHref = "/projects-comments/" + projectId;
             commentsArray.push((<a href={addCommentHref} class="btn btn-success mt-2">Leave a Review</a>));
             const commentSection = document.getElementById('commendSection');
             ReactDOM.render(commentsArray, commentSection);
