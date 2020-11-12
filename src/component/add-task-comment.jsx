@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class AddProjectComment extends Component {
+class AddTaskComment extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,7 +13,7 @@ class AddProjectComment extends Component {
             <React.Fragment>
                 <div className="col-md-4 mt-4 container">
                     <div className="text-center border-light p-5">
-                        <p className="h4 mb-4">Add Project Comment</p>
+                        <p className="h4 mb-4">Add Task Comment</p>
                         <div id="emailField" className="form-group">
                             <textarea onChange={this.changeInputField}
                                 name="description"
@@ -36,14 +36,14 @@ class AddProjectComment extends Component {
 
     addComment = () => {
         const currentThis = this;
-        const projectId = this.getProjectIdFromUrl();
-        const registerForm = {
+        const taskId = this.getProjectIdFromUrl();
+        const taskCommentForm = {
             description: currentThis.state.description,
-            projectId: projectId
+            taskId: taskId
         }
-        fetch(process.env.REACT_APP_URL + '/comments/project', {
+        fetch(process.env.REACT_APP_URL + '/comments/task', {
             method: 'POST',
-            body: JSON.stringify(registerForm),
+            body: JSON.stringify(taskCommentForm),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -54,7 +54,7 @@ class AddProjectComment extends Component {
                 alert('Comment not added: ' + response.status);
                 return;
             }
-            window.location.href = '/projects/' + projectId;
+            window.location.href = '/tasks/' + taskId;
         }).catch(error => alert(error))
     }
 
@@ -71,4 +71,4 @@ class AddProjectComment extends Component {
     };
 }
 
-export default AddProjectComment;
+export default AddTaskComment;
