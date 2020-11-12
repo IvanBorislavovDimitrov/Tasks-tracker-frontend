@@ -38,7 +38,6 @@ class DeleteTask extends Component {
                                 rows="3">
                             </textarea>
                         </div>
-
                         <button onClick={this.deleteTask} className="btn btn-danger btn-block">
                             Delete
                             </button>

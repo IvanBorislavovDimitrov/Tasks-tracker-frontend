@@ -76,15 +76,21 @@ class ProjectInfo extends Component {
             });
             const commentsArray = [];
             project['comments'].forEach(comment => {
+                console.log(comment)
                 const commentDiv = (<div>
                     <p>{comment['description']}</p>
-                    <small all class="text-muted">Posted by: {comment['author']['username']}</small>
+                    <small all class="text-muted">Posted by: {comment['author']['username']}</small><br></br>
+                    <small all class="text-muted">Posted by: {comment['createdAt']}</small><br></br>
+                    <small all class="text-muted">Create at: {comment['updatedAt']}</small>
+                    <br></br>
+                    <button onClick={() => currentThis.moveToEditProjectComment(comment['id'])} className="btn btn-primary mt-2">Edit</button>
+                    <button onClick={() => currentThis.moveToDeleteProjectComment(comment['id'])} className="btn btn-danger mt-2 ml-2 ">Delete</button>
                     <hr />
-                </div>);
+                </div >);
                 commentsArray.push(commentDiv);
             });
             const addCommentHref = "/projects-comments/" + projectId;
-            commentsArray.push((<a href={addCommentHref} class="btn btn-success mt-2">Leave a Review</a>));
+            commentsArray.push((<a href={addCommentHref} class="btn btn-success mt-2">Leave a Comment</a>));
             const commentSection = document.getElementById('commendSection');
             ReactDOM.render(commentsArray, commentSection);
             this.loadPicture(projectId);
@@ -112,6 +118,14 @@ class ProjectInfo extends Component {
         const pageURL = window.location.href;
         const lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
         return lastURLSegment;
+    }
+
+    moveToEditProjectComment = (commentId) => {
+        window.location.href = '/edit-project-comment/' + commentId;
+    }
+
+    moveToDeleteProjectComment = (commentId) => {
+        window.location.href = '/delete-project-comment/' + commentId;
     }
 
     changeInputField = event => {
