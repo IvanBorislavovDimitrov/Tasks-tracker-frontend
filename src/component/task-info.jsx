@@ -37,7 +37,7 @@ class TaskInfo extends Component {
                                         </div>
                                         <div div="row"><h1></h1>
                                             <button onClick={this.assignToMe} className="btn btn-danger">Assign to me</button>
-                                            <button className="btn btn-primary ml-2">Edit</button>
+                                            <button onClick={this.moveToEditTask} className="btn btn-primary ml-2">Edit</button>
                                             <button className="btn btn-danger ml-2">Delete</button>
                                         </div>
                                     </div>
@@ -150,6 +150,11 @@ class TaskInfo extends Component {
             }
             window.location.reload();
         })
+    }
+
+    moveToEditTask = () => {
+        const taskId = this.getTaskFromUrl();
+        window.location.href = '/edit-task/' + taskId;
     }
 
     changeInputField = event => {
