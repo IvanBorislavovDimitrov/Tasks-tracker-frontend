@@ -38,7 +38,7 @@ class TaskInfo extends Component {
                                         <div div="row"><h1></h1>
                                             <button onClick={this.assignToMe} className="btn btn-danger">Assign to me</button>
                                             <button onClick={this.moveToEditTask} className="btn btn-primary ml-2">Edit</button>
-                                            <button className="btn btn-danger ml-2">Delete</button>
+                                            <button onClick={this.moveToDeleteTask} className="btn btn-danger ml-2">Delete</button>
                                         </div>
                                     </div>
                                 </div>
@@ -155,6 +155,11 @@ class TaskInfo extends Component {
     moveToEditTask = () => {
         const taskId = this.getTaskFromUrl();
         window.location.href = '/edit-task/' + taskId;
+    }
+
+    moveToDeleteTask = () => {
+        const taskId = this.getTaskFromUrl();
+        window.location.href = '/delete-task/' + taskId;
     }
 
     changeInputField = event => {
