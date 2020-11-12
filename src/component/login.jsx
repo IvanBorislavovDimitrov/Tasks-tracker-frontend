@@ -65,6 +65,7 @@ class UserLogin extends Component {
             const jsonResponse = await response.json();
             if (response.status !== 200) {
                 alert("Invalid login!");
+                return;
             }
             localStorage.setItem('token', jsonResponse['token']);
             window.location.href = '/';

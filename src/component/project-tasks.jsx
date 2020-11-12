@@ -65,12 +65,17 @@ class ProjectTasks extends Component {
                 alert('Tasks were not loaded');
                 return;
             }
+            const backlogItems = [];
+            const selectedItems = [];
+            const inProgressItems = [];
+            const blockedItems = [];
+            const completedItems = [];
             tasks.forEach(task => {
                 let assigneeName = task['assignee'];
                 if (assigneeName == null) {
                     assigneeName = 'No assignee'
                 } else {
-                    assigneeName = task['assignee']['name'];
+                    assigneeName = task['assignee']['username'];
                 }
                 const taskHref = '/tasks/' + task['id'];
                 const backlogItem = (
@@ -85,24 +90,29 @@ class ProjectTasks extends Component {
                     </div>
                 );
                 if (task['state'] == 'BACKLOG') {
-                    const backlog = document.getElementById('backlog');
-                    ReactDOM.render(backlogItem, backlog);
+                    backlogItems.push(backlogItem);
                 } else if (task['state'] == 'SELECTED') {
-                    const selected = document.getElementById('selected');
-                    ReactDOM.render(backlogItem, selected);
+                    selectedItems.push(backlogItem);
                 } else if (task['state'] == 'IN_PROGRESS') {
-                    const inProgress = document.getElementById('inProgress');
-                    ReactDOM.render(backlogItem, inProgress);
+                    inProgressItems.push(backlogItem);
                 } else if (task['state'] == 'BLOCKED') {
-                    const blocked = document.getElementById('blocked');
-                    ReactDOM.render(backlogItem, blocked);
+                    blockedItems.push(backlogItem);
                 } else if (task['state'] == 'COMPLETED') {
-                    const completed = document.getElementById('completed');
-                    ReactDOM.render(backlogItem, completed);
+                    completedItems.push(backlogItem);
                 } else {
                     alert('State not found: ' + task['state']);
                 }
             });
+            const backlog = document.getElementById('backlog');
+            ReactDOM.render(backlogItems, backlog);
+            const selected = document.getElementById('selected');
+            ReactDOM.render(selectedItems, selected);
+            const inProgress = document.getElementById('inProgress');
+            ReactDOM.render(inProgressItems, inProgress);
+            const blocked = document.getElementById('blocked');
+            ReactDOM.render(blockedItems, blocked);
+            const completed = document.getElementById('completed');
+            ReactDOM.render(completedItems, completed);
         }).catch(error => {
             alert(error);
         })
