@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
+import JwtDecoder from './jwt/jwt-decoder'
 
 class ProjectInfo extends Component {
     constructor(props) {
@@ -76,15 +77,15 @@ class ProjectInfo extends Component {
             });
             const commentsArray = [];
             project['comments'].forEach(comment => {
-                console.log(comment)
+                const shouldBeHidden = currentThis.shouldBeHidden(comment);
                 const commentDiv = (<div>
                     <p>{comment['description']}</p>
                     <small all class="text-muted">Posted by: {comment['author']['username']}</small><br></br>
                     <small all class="text-muted">Posted by: {comment['createdAt']}</small><br></br>
                     <small all class="text-muted">Create at: {comment['updatedAt']}</small>
                     <br></br>
-                    <button onClick={() => currentThis.moveToEditProjectComment(comment['id'])} className="btn btn-primary mt-2">Edit</button>
-                    <button onClick={() => currentThis.moveToDeleteProjectComment(comment['id'])} className="btn btn-danger mt-2 ml-2 ">Delete</button>
+                    <button hidden={shouldBeHidden} onClick={() => currentThis.moveToEditProjectComment(comment['id'])} className="btn btn-primary mt-2">Edit</button>
+                    <button hidden={shouldBeHidden} onClick={() => currentThis.moveToDeleteProjectComment(comment['id'])} className="btn btn-danger mt-2 ml-2 ">Delete</button>
                     <hr />
                 </div >);
                 commentsArray.push(commentDiv);
@@ -126,6 +127,14 @@ class ProjectInfo extends Component {
 
     moveToDeleteProjectComment = (commentId) => {
         window.location.href = '/delete-project-comment/' + commentId;
+    }
+
+    shouldBeHidden = (comment) => {
+        const token = localStorage.getItem('token');
+        const jwtDecoder = new JwtDecoder();
+        const decodedToken = jwtDecoder.decodeToken(token);
+        console.log(decodedToken['sub'])
+        return decodedToken['sub'] !== comment['author']['username']
     }
 
     changeInputField = event => {
