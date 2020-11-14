@@ -91,7 +91,12 @@ class TaskInfo extends Component {
             task['comments'].forEach(comment => {
                 const commentDiv = (<div>
                     <p>{comment['description']}</p>
-                    <small all class="text-muted">Posted by: {comment['author']['username']}</small>
+                    <small all class="text-muted">Posted by: {comment['author']['username']}</small><br></br>
+                    <small all class="text-muted">Created at: {comment['createdAt']}</small><br></br>
+                    <small all class="text-muted">Updated at: {comment['updatedAt']}</small>
+                    <br></br>
+                    <button onClick={() => currentThis.moveToEditTaskComment(comment['id'])} className="btn btn-primary mt-2">Edit</button>
+                    <button onClick={() => currentThis.moveToDeleteTaskComment(comment['id'])} className="btn btn-danger mt-2 ml-2 ">Delete</button>
                     <hr />
                 </div>);
                 commentsArray.push(commentDiv);
@@ -160,6 +165,14 @@ class TaskInfo extends Component {
     moveToDeleteTask = () => {
         const taskId = this.getTaskFromUrl();
         window.location.href = '/delete-task/' + taskId;
+    }
+
+    moveToEditTaskComment = (commentId) => {
+        window.location.href = '/edit-task-comment/' + commentId;
+    }
+
+    moveToDeleteTaskComment = (commentId) => {
+        window.location.href = '/delete-task-comment/' + commentId;
     }
 
     changeInputField = event => {

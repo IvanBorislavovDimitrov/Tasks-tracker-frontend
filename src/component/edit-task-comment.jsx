@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class EditProjectComment extends Component {
+class EditTaskComment extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,7 +13,7 @@ class EditProjectComment extends Component {
             <React.Fragment>
                 <div className="col-md-4 mt-4 container">
                     <div className="text-center border-light p-5">
-                        <p className="h4 mb-4">Edit Project Comment</p>
+                        <p className="h4 mb-4">Edit Task Comment</p>
                         <div id="emailField" className="form-group">
                             <textarea onChange={this.changeInputField}
                                 name="description"
@@ -61,7 +61,7 @@ class EditProjectComment extends Component {
         const editCommentForm = {
             description: currentThis.state.description,
         }
-        fetch(process.env.REACT_APP_URL + '/comments/update/project/' + commentId, {
+        fetch(process.env.REACT_APP_URL + '/comments/update/task/' + commentId, {
             method: 'PATCH',
             body: JSON.stringify(editCommentForm),
             headers: {
@@ -74,7 +74,7 @@ class EditProjectComment extends Component {
                 alert('Comment not updated: ' + response.status);
                 return;
             }
-            window.location.href = '/projects/' + comment['projectId'];
+            window.location.href = '/tasks/' + comment['taskId'];
         }).catch(error => alert(error))
     }
 
@@ -91,4 +91,4 @@ class EditProjectComment extends Component {
     };
 }
 
-export default EditProjectComment;
+export default EditTaskComment;

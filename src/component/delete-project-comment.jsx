@@ -59,7 +59,7 @@ class DeleteProjectComment extends Component {
     deleteComment = () => {
         const commentId = this.getCommentIdFromUrl();
         const currentThis = this;
-        fetch(process.env.REACT_APP_URL + '/comments/delete/' + commentId, {
+        fetch(process.env.REACT_APP_URL + '/comments/delete/project/' + commentId, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
