@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 
 class AddUserToProject extends Component {
     constructor(props) {
@@ -25,17 +26,13 @@ class AddUserToProject extends Component {
                                 placeholder="Username"
                             />
                         </div>
-                        <div className="form-group">
-                            <input
-                                onChange={this.changeInputField}
-                                name="projectName"
-                                type="text"
-                                className="form-control"
-                                id="projectNameInputField"
-                                placeholder="Project Name"
-                            />
+                        <div class="form-group">
+                            <label for="projectNames">Project</label>
+                            <select class="form-control" id="projectNames">
+
+                            </select>
                         </div>
-                        <button onClick={this.addProject} className="btn btn-info btn-block">
+                        <button onClick={this.addUserToProject} className="btn btn-info btn-block">
                             Add
                             </button>
                     </div>
@@ -44,7 +41,34 @@ class AddUserToProject extends Component {
         );
     }
 
-    addProject = () => {
+    componentDidMount() {
+        this.loadProjects();
+    }
+
+    loadProjects = () => {
+        fetch(process.env.REACT_APP_URL + '/projects', {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }).then(async response => {
+            const projects = await response.json();
+            if (response.status !== 200) {
+                alert("Projects were not loaded!");
+                return;
+            }
+            const projectElements = [];
+            projects.forEach(project => {
+                const projectElementSelect = (<option>{project['name']}</option>);
+                projectElements.push(projectElementSelect);
+            });
+            const projectNamesSection = document.getElementById('projectNames');
+            ReactDOM.render(projectElements, projectNamesSection);
+        })
+    }
+
+    addUserToProject = () => {
         const token = localStorage.getItem('token');
         const currentThis = this;
         const addUserToProjectName = {
