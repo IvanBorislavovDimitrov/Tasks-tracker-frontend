@@ -37,7 +37,7 @@ class ProjectTasks extends Component {
 
                             </td>
                             <td id="completed" style={{ width: '22rem' }}>
-
+                            
                             </td>
                         </tr>
                     </tbody>

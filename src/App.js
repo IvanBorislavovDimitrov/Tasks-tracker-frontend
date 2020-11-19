@@ -20,6 +20,7 @@ import EditProjectComment from "./component/edit-project-comment";
 import DeleteProjectComment from "./component/delete-project-comment";
 import EditTaskComment from "./component/edit-task-comment";
 import DeleteTaskComment from "./component/delete-task-comment";
+import ReleaseProject from "./component/release-project";
 
 function App() {
   setTimeout(function () {
@@ -48,6 +49,7 @@ function App() {
         <Route path="/delete-project-comment/" component={DeleteProjectComment} />
         <Route path="/edit-task-comment/" component={EditTaskComment} />
         <Route path="/delete-task-comment/" component={DeleteTaskComment} />
+        <Route path="/release-project/" component={ReleaseProject} />
 
       </Switch>
     </BrowserRouter>

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 
-class AddUserToProject extends Component {
+class ReleaseProject extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null,
+            version: null,
             projectName: null,
         };
     }
@@ -15,15 +15,15 @@ class AddUserToProject extends Component {
             <React.Fragment>
                 <div className="col-md-4 mt-4 container">
                     <div className="text-center border-light p-5">
-                        <p className="h4 mb-4">Add User to Project</p>
+                        <p className="h4 mb-4">Release project</p>
                         <div className="form-group">
                             <input
                                 onChange={this.changeInputField}
-                                name="username"
+                                name="version"
                                 type="text"
                                 className="form-control"
-                                id="usernameInputField"
-                                placeholder="Username"
+                                id="versionInputField"
+                                placeholder="Version"
                             />
                         </div>
                         <div class="form-group">
@@ -32,8 +32,8 @@ class AddUserToProject extends Component {
 
                             </select>
                         </div>
-                        <button onClick={this.addUserToProject} className="btn btn-info btn-block">
-                            Add
+                        <button onClick={this.releaseProject} className="btn btn-info btn-block">
+                            Release
                             </button>
                     </div>
                 </div>
@@ -68,18 +68,18 @@ class AddUserToProject extends Component {
         })
     }
 
-    addUserToProject = () => {
+    releaseProject = () => {
         const token = localStorage.getItem('token');
         const currentThis = this;
         const projectNamesSection = document.getElementById('projectNames');
         const projectName = projectNamesSection.value;
-        const addUserToProjectName = {
-            username: currentThis.state.username,
+        const releaseForm = {
+            version: currentThis.state.version,
             projectName: projectName
         };
-        fetch(process.env.REACT_APP_URL + '/projects/add-user-to-project', {
+        fetch(process.env.REACT_APP_URL + '/projects/release', {
             method: 'POST',
-            body: JSON.stringify(addUserToProjectName),
+            body: JSON.stringify(releaseForm),
             headers: {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json'
@@ -87,10 +87,10 @@ class AddUserToProject extends Component {
         }).then(async response => {
             await response.json();
             if (response.status !== 200) {
-                alert("The user hasn't been added to the project!");
+                alert("The project has been released!");
                 return;
             }
-            alert("The user has been added to the project!");
+            alert("The project hasn't been released!");
             window.location.href = '/';
         }).catch(error => alert(error));
     }
@@ -102,4 +102,4 @@ class AddUserToProject extends Component {
     };
 }
 
-export default AddUserToProject;
+export default ReleaseProject;
