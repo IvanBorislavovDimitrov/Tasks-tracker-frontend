@@ -46,6 +46,7 @@ class MyProjects extends Component {
                 const href = '/projects/' + project['id'];
                 const projectTasksHref = '/project-tasks/' + project['id'];
                 const releaseProjectHref = '/release-project/' + project['id'];
+                const projectReleasesHref = '/project-releases/' + project['id'];
                 const projectElement = (<div id={project['id']} class="col-lg-3 col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
@@ -58,7 +59,7 @@ class MyProjects extends Component {
                             <a href={releaseProjectHref} class="ml-3 btn btn-success btn-sm">Release</a>
                             <br></br>
                             <br></br>
-                            <a href={href} class="btn btn-success btn-sm">Releases</a>
+                            <a href={projectReleasesHref} class="btn btn-success btn-sm">Releases</a>
                         </div>
                         
                     </div>
