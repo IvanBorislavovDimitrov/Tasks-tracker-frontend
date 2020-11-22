@@ -26,12 +26,7 @@ class ReleaseProject extends Component {
                                 placeholder="Version"
                             />
                         </div>
-                        <div class="form-group">
-                            <label for="projectNames">Project</label>
-                            <select class="form-control" id="projectNames">
 
-                            </select>
-                        </div>
                         <button onClick={this.releaseProject} className="btn btn-info btn-block">
                             Release
                             </button>
@@ -42,42 +37,17 @@ class ReleaseProject extends Component {
     }
 
     componentDidMount() {
-        this.loadProjects();
-    }
-
-    loadProjects = () => {
-        fetch(process.env.REACT_APP_URL + '/projects', {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        }).then(async response => {
-            const projects = await response.json();
-            if (response.status !== 200) {
-                alert("Projects were not loaded!");
-                return;
-            }
-            const projectElements = [];
-            projects.forEach(project => {
-                const projectElementSelect = (<option>{project['name']}</option>);
-                projectElements.push(projectElementSelect);
-            });
-            const projectNamesSection = document.getElementById('projectNames');
-            ReactDOM.render(projectElements, projectNamesSection);
-        })
     }
 
     releaseProject = () => {
         const token = localStorage.getItem('token');
         const currentThis = this;
-        const projectNamesSection = document.getElementById('projectNames');
-        const projectName = projectNamesSection.value;
+        const projectId = this.getProjectIdFromUrl();
         const releaseForm = {
             version: currentThis.state.version,
-            projectName: projectName
+            projectId: projectId
         };
-        fetch(process.env.REACT_APP_URL + '/projects/release', {
+        fetch(process.env.REACT_APP_URL + '/releases', {
             method: 'POST',
             body: JSON.stringify(releaseForm),
             headers: {
@@ -86,13 +56,19 @@ class ReleaseProject extends Component {
             }
         }).then(async response => {
             await response.json();
-            if (response.status !== 200) {
-                alert("The project has been released!");
+            if (response.status != 200) {
+                alert("The project hasn't been released!");
                 return;
             }
-            alert("The project hasn't been released!");
+            alert("The project has been released!");
             window.location.href = '/';
         }).catch(error => alert(error));
+    }
+
+    getProjectIdFromUrl = () => {
+        const pageURL = window.location.href;
+        const lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
+        return lastURLSegment;
     }
 
     changeInputField = event => {

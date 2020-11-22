@@ -47,9 +47,6 @@ class Navbar extends Component {
                             <li className="nav-item" hidden={!this.isAdmin()}>
                                 <a className="nav-link" href="/add-user-to-project">Add user to project</a>
                             </li>
-                            <li className="nav-item" hidden={!this.isAdmin()}>
-                                <a className="nav-link" href="/release-project">Release project</a>
-                            </li>
                         </ul>
 
                     </div>

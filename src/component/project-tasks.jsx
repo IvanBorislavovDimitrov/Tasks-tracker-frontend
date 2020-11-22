@@ -19,7 +19,7 @@ class ProjectTasks extends Component {
                             <th scope="col">Selected</th>
                             <th scope="col">In Progress</th>
                             <th scope="col">Blocked</th>
-                            <th scope="col">Completed</th>
+                            <th scope="col">Completed (not released)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,7 +53,7 @@ class ProjectTasks extends Component {
     loadTasks = () => {
         const projectId = this.getProjectIdFromUrl();
         const token = 'Bearer ' + localStorage.getItem('token');
-        fetch(process.env.REACT_APP_URL + '/tasks/project/' + projectId, {
+        fetch(process.env.REACT_APP_URL + '/tasks/project/unreleased/' + projectId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

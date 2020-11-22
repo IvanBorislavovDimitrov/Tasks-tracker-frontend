@@ -45,6 +45,7 @@ class MyProjects extends Component {
             projects.forEach(project => {
                 const href = '/projects/' + project['id'];
                 const projectTasksHref = '/project-tasks/' + project['id'];
+                const releaseProjectHref = '/release-project/' + project['id'];
                 const projectElement = (<div id={project['id']} class="col-lg-3 col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
@@ -52,9 +53,14 @@ class MyProjects extends Component {
                             <p class="card-text">{project['description']}</p>
                         </div>
                         <div class="card-footer">
-                            <a href={href} class="btn btn-primary">More Info!</a>
-                            <a href={projectTasksHref} class="ml-3 btn btn-success">Check Tasks!</a>
+                            <a href={href} class="btn btn-success btn-sm">Info</a>
+                            <a href={projectTasksHref} class="ml-3 btn btn-success btn-sm">Tasks</a>
+                            <a href={releaseProjectHref} class="ml-3 btn btn-success btn-sm">Release</a>
+                            <br></br>
+                            <br></br>
+                            <a href={href} class="btn btn-success btn-sm">Releases</a>
                         </div>
+                        
                     </div>
                 </div>);
                 elements.push(projectElement);
