@@ -12,22 +12,24 @@ class TasksByRelease extends Component {
     render() {
         return (
             <React.Fragment>
-                <header class="jumbotron my-4">
-                    <h1 class="display-3 text-center">Tasks by release</h1>
-                </header>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Created at</th>
-                            <th scope="col">Check task</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tasks">
+                <div className="container">
+                    <header class="jumbotron my-4">
+                        <h1 class="display-3 text-center">Tasks by release</h1>
+                    </header>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Created at</th>
+                                <th scope="col">Check task</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasks">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </React.Fragment>
         );
     }

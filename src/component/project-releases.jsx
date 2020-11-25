@@ -12,22 +12,24 @@ class ProjectReleases extends Component {
     render() {
         return (
             <React.Fragment>
-                <header class="jumbotron my-4">
-                    <h1 class="display-3 text-center">Releases</h1>
-                </header>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Version</th>
-                            <th scope="col">Created at</th>
-                            <th scope="col">Check tasks</th>
-                        </tr>
-                    </thead>
-                    <tbody id="releases">
+                <div className="container">
+                    <header class="jumbotron my-4">
+                        <h1 class="display-3 text-center">Releases</h1>
+                    </header>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Version</th>
+                                <th scope="col">Created at</th>
+                                <th scope="col">Check tasks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="releases">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </React.Fragment>
         );
     }
@@ -57,9 +59,9 @@ class ProjectReleases extends Component {
                 counter++;
                 const releaseRow = (<tr>
                     <th scope="row">{counter}</th>
-                <td>{release['version']}</td>
-                <td>{release['createdAt']}</td>
-                <td><button onClick={() => currentThis.redirectToTask(release['id'])} className="btn btn-success btn-sm">Show Tasks</button></td>
+                    <td>{release['version']}</td>
+                    <td>{release['createdAt']}</td>
+                    <td><button onClick={() => currentThis.redirectToTask(release['id'])} className="btn btn-success btn-sm">Show Tasks</button></td>
                 </tr>);
                 releasesArray.push(releaseRow);
             });
