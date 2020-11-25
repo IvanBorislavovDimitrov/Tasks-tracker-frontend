@@ -55,7 +55,11 @@ class ReleaseProject extends Component {
                 'Content-Type': 'application/json'
             }
         }).then(async response => {
-            await response.json();
+            const responseJson = await response.json();
+            if (response.status == 400) {
+                alert(responseJson['message']);                
+                return;
+            }
             if (response.status != 200) {
                 alert("The project hasn't been released!");
                 return;
