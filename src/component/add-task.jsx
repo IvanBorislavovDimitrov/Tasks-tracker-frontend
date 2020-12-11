@@ -25,6 +25,9 @@ class AddTask extends Component {
                                 id="nameInputField"
                                 placeholder="Name"
                             />
+                            <div id="projectNameInvalidForm" class="text-danger">
+
+                            </div>
                         </div>
                         <div className="form-group">
                             <textarea onChange={this.changeInputField}
@@ -33,6 +36,9 @@ class AddTask extends Component {
                                 id="descriptionInputField"
                                 placeholder="Description"
                                 rows="3"></textarea>
+                        </div>
+                        <div id="descriptionNameInvalidForm" class="text-danger">
+
                         </div>
                         <div class="form-group">
                             <label for="projectNames">Project</label>
@@ -77,6 +83,22 @@ class AddTask extends Component {
     }
 
     addTask = () => {
+        const projectNameInvalidForm = document.getElementById('projectNameInvalidForm');
+        const descriptionNameInvalidForm = document.getElementById('descriptionNameInvalidForm');
+        projectNameInvalidForm.textContent = '';
+        descriptionNameInvalidForm.textContent = '';
+        let stop = false;
+        if (!this.validateNameForm()) {
+            projectNameInvalidForm.textContent = 'Invalid project name';
+            stop = true;
+        }
+        if (!this.validateDescriptionForm()) {
+            descriptionNameInvalidForm.textContent = 'Invalid description';
+            stop = true;
+        }
+        if (stop) {
+            return;
+        }
         const token = localStorage.getItem('token');
         const currentThis = this;
         const projectName = document.getElementById('projectNames');
@@ -101,6 +123,20 @@ class AddTask extends Component {
             alert("The task has been added!");
             window.location.href = '/';
         }).catch(error => alert(error));
+    }
+
+    validateNameForm = () => {
+        if (this.state.name == '' || this.state.name == null || this.state.name == undefined) {
+            return false;
+        }
+        return true;
+    }
+
+    validateDescriptionForm = () => {
+        if (this.state.description == '' || this.state.description == null || this.state.description == undefined) {
+            return false;
+        }
+        return true;
     }
 
     changeInputField = event => {
