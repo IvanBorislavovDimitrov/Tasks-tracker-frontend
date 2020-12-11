@@ -28,6 +28,11 @@ class MyProjects extends Component {
     }
 
     componentDidMount() {
+        const token = localStorage.getItem('token');
+        if (token == null) {
+            window.location.href = '/login';
+            return;
+        }
         this.loadProjects();
     }
 
