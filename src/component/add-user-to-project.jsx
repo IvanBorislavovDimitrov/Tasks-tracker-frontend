@@ -46,6 +46,7 @@ class AddUserToProject extends Component {
     }
 
     loadProjects = () => {
+        const currentThis = this;
         fetch(process.env.REACT_APP_URL + '/projects', {
             method: "GET",
             headers: {
@@ -86,6 +87,10 @@ class AddUserToProject extends Component {
             }
         }).then(async response => {
             await response.json();
+            if (response.status == 404) {
+                alert("User " + currentThis.state.username + " not found");
+                return;
+            }
             if (response.status !== 200) {
                 alert("The user hasn't been added to the project!");
                 return;
