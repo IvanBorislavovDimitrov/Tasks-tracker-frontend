@@ -7,6 +7,7 @@ class AddProject extends Component {
             name: null,
             description: null,
             picture: null,
+            invalidProjectName: false
         };
     }
 
@@ -25,6 +26,9 @@ class AddProject extends Component {
                                 id="nameInputField"
                                 placeholder="Name"
                             />
+                            <div id="projectNameInvalidForm" class="text-danger">
+
+                            </div>
                         </div>
                         <div className="form-group">
                             <textarea onChange={this.changeInputField}
@@ -33,6 +37,9 @@ class AddProject extends Component {
                                 id="descriptionInputField"
                                 placeholder="Description"
                                 rows="3"></textarea>
+                        </div>
+                        <div id="descriptionNameInvalidForm" class="text-danger">
+
                         </div>
                         <div className="form-group">
                             <small id="fileHelp" className="form-text text-muted">Picture</small>
@@ -45,10 +52,13 @@ class AddProject extends Component {
                                 aria-describedby="fileHelp"
                                 name="Picture"
                             />
+                            <div id="pictureNameInvalidForm" class="text-danger">
+
+                            </div>
                         </div>
                         <button onClick={this.addProject} className="btn btn-info btn-block">
                             Add
-                            </button>
+                        </button>
                     </div>
                 </div>
             </React.Fragment>
@@ -56,6 +66,28 @@ class AddProject extends Component {
     }
 
     addProject = () => {
+        const projectNameInvalidForm = document.getElementById('projectNameInvalidForm');
+        const descriptionNameInvalidForm = document.getElementById('descriptionNameInvalidForm');
+        const pictureNameInvalidForm = document.getElementById('pictureNameInvalidForm');
+        projectNameInvalidForm.textContent = '';
+        descriptionNameInvalidForm.textContent = '';
+        pictureNameInvalidForm.textContent = '';
+        let stop = false;
+        if (!this.validateNameForm()) {
+            projectNameInvalidForm.textContent = 'Invalid project name';
+            stop = true;
+        }
+        if (!this.validateDescriptionForm()) {
+            descriptionNameInvalidForm.textContent = 'Invalid description';
+            stop = true;
+        }
+        if (!this.validatePictureForm()) {
+            pictureNameInvalidForm.textContent = 'Picture not added';
+            stop = true;
+        }
+        if (stop) {
+            return;
+        }
         const token = localStorage.getItem('token');
         const currentThis = this;
         const addProjectForm = new FormData();
@@ -78,6 +110,27 @@ class AddProject extends Component {
             alert("The project has been added!");
             window.location.href = '/';
         }).catch(error => alert(error));
+    }
+
+    validateNameForm = () => {
+        if (this.state.name == '' || this.state.name == null || this.state.name == undefined) {
+            return false;
+        }
+        return true;
+    }
+
+    validateDescriptionForm = () => {
+        if (this.state.description == '' || this.state.description == null || this.state.description == undefined) {
+            return false;
+        }
+        return true;
+    }
+
+    validatePictureForm = () => {
+        if( document.getElementById("picture").files.length == 0 ){
+            return false;
+        }
+        return true;
     }
 
     changeInputField = event => {
