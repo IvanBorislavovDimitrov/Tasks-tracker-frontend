@@ -165,6 +165,14 @@ class Register extends Component {
             [event.target.name]: event.target.value
         });
     };
+
+    componentDidMount() {
+        let isLoggedIn = false;
+        const token = localStorage.getItem('token');
+        if (token !== null && token !== undefined && token != "undefined") {
+            window.location.href = '/';
+        }
+    }
 }
 
 export default Register;
