@@ -45,36 +45,10 @@ class UserProfile extends Component {
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="assigned">
-                                    <div class="alert alert-info alert-dismissable">
-                                        <a class="panel-close close" data-dismiss="alert">×</a> This is an <strong>.alert</strong>. Use this to show important messages to the user.
-                    </div>
                                     <table class="table table-hover table-striped">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <span class="float-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the..
-                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="float-right font-weight-bold">Yesterday</span> There has been a request on your account since that was..
-                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="float-right font-weight-bold">9/10</span> Porttitor vitae ultrices quis, dapibus id dolor. Morbi venenatis lacinia rhoncus.
-                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="float-right font-weight-bold">9/4</span> Vestibulum tincidunt ullamcorper eros eget luctus.
-                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span class="float-right font-weight-bold">9/4</span> Maxamillion ais the fix for tibulum tincidunt ullamcorper eros.
-                                </td>
-                                            </tr>
+                                        <tbody id="assigned-items">
+ 
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -219,6 +193,19 @@ class UserProfile extends Component {
                 userProfilePictureName: user['profilePictureName'],
                 userId: user['id']
             });
+            const assignedItems = document.getElementById('assigned-items');
+            const parsedTasks = [];
+            user['tasks'].forEach(task => {
+                const hostDomain = window.location.href.split('/')[0];
+                const url = hostDomain + '/tasks/' + task['id'];
+                const element = (<tr>
+                    <td>
+                        <span class="float-right"><a href={url}>Open backlog item</a></span>{task['name']}
+                    </td>
+                </tr>);
+                parsedTasks.push(element);
+            });
+            ReactDOM.render(parsedTasks, assignedItems);
         }).catch(error => alert(error));
     }
 
