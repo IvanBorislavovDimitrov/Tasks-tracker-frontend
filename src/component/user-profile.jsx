@@ -33,34 +33,11 @@ class UserProfile extends Component {
                                     <p id="username"></p>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Recent Activity</h5>
+                                            <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span>Last 10 logins</h5>
                                             <table class="table table-sm table-hover table-striped">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Abby</strong> joined ACME Project Team in <strong>`Collaboration`</strong>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Gary</strong> deleted My Board1 in <strong>`Discussions`</strong>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Kensington</strong> deleted MyBoard3 in <strong>`Discussions`</strong>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>John</strong> deleted My Board1 in <strong>`Discussions`</strong>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Skell</strong> deleted his post Look at Why this is.. in <strong>`Discussions`</strong>
-                                                        </td>
-                                                    </tr>
+                                                <tbody id="last-10-logins">
+
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -208,8 +185,8 @@ class UserProfile extends Component {
         );
     }
 
-    componentDidMount() {
-        this.loadUser();
+    async componentDidMount() {
+        await this.loadUser();
     }
 
     loadUser = async () => {
@@ -224,9 +201,23 @@ class UserProfile extends Component {
             const user = await response.json();
             const username = document.getElementById('username');
             username.innerHTML = 'Username: ' + user['username'];
+            const last10Logins = document.getElementById('last-10-logins');
+            const parsed10Logins = [];
+            user['loginRecords'].forEach(loginRecord => {
+                const element = (<tr>
+                    <td>
+                        <strong>{user['username']}</strong> logged at: {loginRecord['createdAt']}...
+                    </td>
+                </tr>);
+                parsed10Logins.push(element);
+            });
+            ReactDOM.render(parsed10Logins, last10Logins);
+            this.setState({
+                userProfilePictureName: user['profilePictureName']
+            });
         }).catch(error => alert(error));
     }
-    
+
     loadProfilePicture = (profilePictureName) => {
 
     }
