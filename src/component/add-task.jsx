@@ -41,6 +41,13 @@ class AddTask extends Component {
 
                         </div>
                         <div class="form-group">
+                            <label for="type">Type</label>
+                            <select class="form-control" id="type">
+                                <option>backlog-item</option>
+                                <option>bug</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="projectNames">Project</label>
                             <select class="form-control" id="projectNames">
 
@@ -102,10 +109,12 @@ class AddTask extends Component {
         const token = localStorage.getItem('token');
         const currentThis = this;
         const projectName = document.getElementById('projectNames');
+        const taskType = document.getElementById('type').value;
         const addTaskForm = {
             name: currentThis.state.name,
             description: currentThis.state.description,
-            projectName: projectName.value
+            projectName: projectName.value,
+            type: taskType
         };
         fetch(process.env.REACT_APP_URL + '/tasks/create', {
             method: 'POST',
