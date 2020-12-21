@@ -24,6 +24,7 @@ import ReleaseProject from "./component/release-project";
 import ProjectReleases from "./component/project-releases";
 import TasksByRelease from "./component/tasks-by-release";
 import ActivateAccount from "./component/activate-account";
+import UserProfile from './component/user-profile'
 
 function App() {
   setTimeout(function () {
@@ -56,6 +57,7 @@ function App() {
         <Route path="/project-releases/" component={ProjectReleases} />
         <Route path="/releases/tasks/" component={TasksByRelease} />
         <Route path="/users/activate/" component={ActivateAccount} />
+        <Route exact path="/users/profile" component={UserProfile} />
 
       </Switch>
     </BrowserRouter>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class AddProject extends Component {
+class ActivateAccount extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -33,4 +33,4 @@ class AddProject extends Component {
     }
 }
 
-export default AddProject;
+export default ActivateAccount;
