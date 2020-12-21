@@ -42,7 +42,10 @@ class UserLogin extends Component {
                             </div>
                         <button onClick={this.loginUser} className="btn btn-info btn-block">
                             Login
-                            </button>
+                        </button>
+                        <button onClick={this.redirectToForgottenPassword} className="btn btn-danger btn-block">
+                            Forgotten Password
+                        </button>
                     </div>
                 </div>
             </React.Fragment>
@@ -85,6 +88,10 @@ class UserLogin extends Component {
         if (token !== null && token !== undefined && token != "undefined") {
             window.location.href = '/';
         }
+    }
+
+    redirectToForgottenPassword = () => {
+        window.location.href = '/users/forgotten-password'
     }
 }
 

@@ -24,7 +24,9 @@ import ReleaseProject from "./component/release-project";
 import ProjectReleases from "./component/project-releases";
 import TasksByRelease from "./component/tasks-by-release";
 import ActivateAccount from "./component/activate-account";
-import UserProfile from './component/user-profile'
+import UserProfile from './component/user-profile';
+import ForgottenPassword from './component/forgotten-password';
+import ResetPasswordComponent from './component/reset-password';
 
 function App() {
   setTimeout(function () {
@@ -58,6 +60,8 @@ function App() {
         <Route path="/releases/tasks/" component={TasksByRelease} />
         <Route path="/users/activate/" component={ActivateAccount} />
         <Route exact path="/users/profile" component={UserProfile} />
+        <Route exact path="/users/forgotten-password" component={ForgottenPassword} />
+        <Route path="/users/reset-password/" component={ResetPasswordComponent} />
 
       </Switch>
     </BrowserRouter>
