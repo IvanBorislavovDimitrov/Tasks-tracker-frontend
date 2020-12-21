@@ -6,6 +6,7 @@ class UserProfile extends Component {
         super(props);
         this.state = {
             userProfilePictureName: null,
+            userId: null,
             userDescription: null
         };
     }
@@ -170,14 +171,14 @@ class UserProfile extends Component {
                         </div>
                         <div class="col-lg-4 order-lg-1 text-center">
                             <div id="profilePictureSection">
-                                <img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" height="260px" width="260px" alt="avatar" />
                             </div>
                             <h6 class="mt-2">Upload a different photo</h6>
                             <br />
                             <div class="form-group">
-                                <label for="exampleFormControlFile1">Change profile picture</label>
-                                <input type="file" class="ml-5 form-control-file" id="exampleFormControlFile1" />
+                                <label for="pictureInput">Change profile picture</label>
+                                <input id="pictureInput" type="file" class="ml-5 form-control-file" id="pictureInput" />
                             </div>
+                            <button  onClick={this.updateProfilePicture} className="btn btn-primary">Update</button>
                         </div>
                     </div>
                 </div>
@@ -187,6 +188,8 @@ class UserProfile extends Component {
 
     async componentDidMount() {
         await this.loadUser();
+        console.log(this.state.userProfilePictureName);
+        this.loadProfilePicture(this.state.userProfilePictureName, this.state.userId);
     }
 
     loadUser = async () => {
@@ -213,13 +216,52 @@ class UserProfile extends Component {
             });
             ReactDOM.render(parsed10Logins, last10Logins);
             this.setState({
-                userProfilePictureName: user['profilePictureName']
+                userProfilePictureName: user['profilePictureName'],
+                userId: user['id']
             });
         }).catch(error => alert(error));
     }
 
-    loadProfilePicture = (profilePictureName) => {
+    loadProfilePicture = (profilePictureName, userId) => {
+        const profilePictureSection = document.getElementById('profilePictureSection');
+        if (profilePictureName == null) {
+            const element = (<img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" height="260px" width="260px" alt="avatar" />);
+            ReactDOM.render(element, profilePictureSection);
+        } else {
+            fetch(process.env.REACT_APP_URL + '/resources/users/profile-picture/' + userId, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then(response => response.blob())
+            .then(image => {
+                const outside = URL.createObjectURL(image);
+                console.log(outside);
+                const element = (<img src={outside} class="mx-auto img-fluid img-circle d-block" height="260px" width="260px" alt="//placehold.it/150" />);
+                ReactDOM.render(element, profilePictureSection);
+            })
+        }
+    }
 
+    updateProfilePicture = () => {
+        const updateProfilePicture = new FormData();
+        const picture = document.getElementById('pictureInput');
+        updateProfilePicture.append('profilePicture', picture.files[0]);
+        fetch(process.env.REACT_APP_URL + '/users/update/profile-picture', {
+            method: 'PATCH',
+            body: updateProfilePicture,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }).then(async response => {
+            await response.json();
+            if (response.status !== 200) {
+                alert("An error occurred while updating the profile picture!");
+                return;
+            }
+            alert("The profile picture was updated!");
+            window.location.href = '/users/profile';
+        }).catch(error => alert(error));
     }
 
 }
