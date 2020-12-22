@@ -64,7 +64,8 @@ class MyProjects extends Component {
                             <a href={releaseProjectHref} class="ml-3 btn btn-success btn-sm">Release</a>
                             <br></br>
                             <br></br>
-                            <a href={projectReleasesHref} class="btn btn-success btn-sm">Releases</a>
+                            <a href={projectReleasesHref} class="btn btn-success btn-sm mr-3">Releases</a>
+                            <a href="" class="btn btn-success btn-sm">Show participants</a>
                         </div>
                         
                     </div>
