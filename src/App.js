@@ -27,6 +27,7 @@ import ActivateAccount from "./component/activate-account";
 import UserProfile from './component/user-profile';
 import ForgottenPassword from './component/forgotten-password';
 import ResetPasswordComponent from './component/reset-password';
+import SearchTasks from './component/searched-tasks';
 
 function App() {
   setTimeout(function () {
@@ -61,7 +62,7 @@ function App() {
         <Route path="/users/activate/" component={ActivateAccount} />
         <Route exact path="/users/profile" component={UserProfile} />
         <Route exact path="/users/forgotten-password" component={ForgottenPassword} />
-        <Route path="/users/reset-password/" component={ResetPasswordComponent} />
+        <Route exact path="/search-tasks" component={SearchTasks} />
 
       </Switch>
     </BrowserRouter>

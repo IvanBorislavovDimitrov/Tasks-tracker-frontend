@@ -17,14 +17,14 @@ class Navbar extends Component {
 
         return (
             <React.Fragment>
-                <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+                <nav className="navbar navbar-expand-lg navbar-dark bg-primary w-100">
                     <a className="navbar-brand" href="/">Tasks tracker</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarColor01">
-                        <ul className="navbar-nav mr-auto">
+                        <ul class="navbar-nav w-100">
 
                             <li className="nav-item" hidden={isLoggedIn}>
                                 <a className="nav-link" href="/login">Login</a>
@@ -50,6 +50,10 @@ class Navbar extends Component {
                             <li className="nav-item" hidden={!isLoggedIn}>
                                 <a className="nav-link" href="/users/profile">My profile</a>
                             </li>
+                            <div class="form-inline ml-auto">
+                                <input id="task-name" class="form-control mr-sm-2" type="text" placeholder="Search" />
+                                <button onClick={this.search} class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                            </div>
                         </ul>
 
                     </div>
@@ -99,6 +103,24 @@ class Navbar extends Component {
         const decodedToken = jwtDecoder.decodeToken(token);
         const roles = decodedToken['roles'];
         return roles.includes('ADMIN');
+    }
+
+    search = () => {
+        let isLoggedIn = false;
+        const token = localStorage.getItem('token');
+        if (token !== null && token !== undefined && token != "undefined") {
+            isLoggedIn = true;
+        }
+        if (!isLoggedIn) {
+            window.location.href = '/login';
+            return;
+        }
+        const taskName = document.getElementById('task-name').value;
+        if (taskName == '') {
+            alert('Please enter a task name...');
+            return;
+        }
+        window.location.href = '/search-tasks?name=' + taskName;
     }
 
 }
