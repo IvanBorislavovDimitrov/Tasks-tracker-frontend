@@ -29,7 +29,12 @@ class ProjectInfo extends Component {
                                     <h3 class="card-title">{this.state.projectName}</h3>
                                     <p class="card-text">{this.state.projectDescription}</p>
                                 </div>
+                                <div className="mb-3"><h1></h1>
+                                    <button onClick={this.editProject} className="btn btn-primary ml-2">Edit</button>
+                                    <button onClick={this.deleteProject} className="btn btn-danger ml-2">Delete</button>
+                                </div>
                             </div>
+
 
                             <div class="card card-outline-secondary my-4">
                                 <div class="card-header">
@@ -142,6 +147,14 @@ class ProjectInfo extends Component {
             [event.target.name]: event.target.value
         });
     };
+
+    editProject = () => {
+
+    }
+
+    deleteProject = () => {
+        window.location.href = "/delete-project/" + this.getProjectIdFromUrl();
+    }
 }
 
 export default ProjectInfo;

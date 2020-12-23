@@ -30,6 +30,7 @@ import ResetPasswordComponent from './component/reset-password';
 import SearchTasks from './component/searched-tasks';
 import ProjectMembers from './component/project-members';
 import OtherUserProfile from './component/other-user-profile';
+import DeleteProject from './component/delete-project';
 
 function App() {
   setTimeout(function () {
@@ -68,6 +69,7 @@ function App() {
         <Route path="/users/reset-password/" component={ResetPasswordComponent} />
         <Route path="/members/project/" component={ProjectMembers} />
         <Route path="/other-user/profile/" component={OtherUserProfile} />
+        <Route path="/delete-project/" component={DeleteProject} />
 
       </Switch>
     </BrowserRouter>

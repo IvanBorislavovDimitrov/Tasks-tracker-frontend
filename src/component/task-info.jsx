@@ -35,7 +35,7 @@ class TaskInfo extends Component {
                                             <button onClick={() => this.setStateTo('blocked')} className="btn btn-primary ml-2">Move to In Blocked</button>
                                             <button onClick={() => this.setStateTo('completed')} className="btn btn-success ml-2">Move to Completed</button>
                                         </div>
-                                        <div div="row"><h1></h1>
+                                        <div><h1></h1>
                                             <button onClick={this.assignToMe} className="btn btn-danger">Assign to me</button>
                                             <button onClick={this.moveToEditTask} className="btn btn-primary ml-2">Edit</button>
                                             <button onClick={this.moveToDeleteTask} className="btn btn-danger ml-2">Delete</button>
