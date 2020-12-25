@@ -51,6 +51,16 @@ class Charts extends Component {
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4 py-1">
+                            <div class="card">
+                                <div class="col text-center mt-3">
+                                    <h4>Admins/Users chart</h4>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="admins-users-donut"></canvas>
+                                </div>
+                            </div>
+                        </div>
                         {/* <div class="col-md-4 py-1">
                             <div class="card">
                                 <div class="card-body">
@@ -74,6 +84,7 @@ class Charts extends Component {
     componentDidMount() {
         this.loadBacklogsBugsStatistic();
         this.loadTasksStatesStatistic();
+        this.loadAdminsUsersStatistic();
     }
 
     loadBacklogsBugsStatistic = () => {
@@ -110,11 +121,28 @@ class Charts extends Component {
                 return;
             }
             const tasksStates = await response.json();
-            console.log(tasksStates)
             currentThis.loadTasksStatesChart(tasksStates['backlogItems'], tasksStates['selectedItems'],
                 tasksStates['inProgressItems'], tasksStates['blockedItems'], tasksStates['completedItems']);
         }).catch(error => alert(error));
+    }
 
+    loadAdminsUsersStatistic = () => {
+        const currentThis = this;
+        const projectId = this.getProjectIdFromUrl();
+        fetch(process.env.REACT_APP_URL + '/projects/admins-users/' + projectId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + localStorage.getItem('token')
+            }
+        }).then(async response => {
+            if (response.status !== 200) {
+                alert("Statistics haven't been loaded. Please reload the page!");
+                return;
+            }
+            const adminsUsers = await response.json();
+            currentThis.loadAdminsUsersChart(adminsUsers['adminsCount'], adminsUsers['usersCount']);
+        }).catch(error => alert(error));
     }
 
     loadBacklogsBugsChart = (backlogsCount, bugsCount) => {
@@ -177,6 +205,37 @@ class Charts extends Component {
             new Chart(tasksStatesDonut, {
                 type: 'pie',
                 data: tasksStatesData,
+                options: donutOptions
+            });
+        }
+    }
+
+    loadAdminsUsersChart = (adminsCount, usersCount) => {
+        if (adminsCount == 0 && usersCount == 0) {
+            adminsCount = -1;
+            usersCount = -1;
+        }
+        const colors = ['#007bff', '#28a745', '#333333', '#c3e6cb', '#dc3545', '#6c757d'];
+        const donutOptions = {
+            cutoutPercentage: 60,
+            legend: { position: 'bottom', padding: 5, labels: { pointStyle: 'circle', usePointStyle: true } }
+        };
+
+        const adminsUsersData = {
+            labels: ['Admins','Users'],
+            datasets: [
+                {
+                    backgroundColor: colors.slice(0, 5),
+                    borderWidth: 0,
+                    data: [adminsCount, usersCount]
+                }
+            ]
+        };
+        const adminsUsersDonut = document.getElementById("admins-users-donut");
+        if (adminsUsersDonut) {
+            new Chart(adminsUsersDonut, {
+                type: 'pie',
+                data: adminsUsersData,
                 options: donutOptions
             });
         }
