@@ -30,12 +30,10 @@ class ProjectInfo extends Component {
                                     <p class="card-text">{this.state.projectDescription}</p>
                                 </div>
                                 <div className="mb-3"><h1></h1>
-                                    <button onClick={this.editProject} className="btn btn-primary ml-2">Edit</button>
-                                    <button onClick={this.deleteProject} className="btn btn-danger ml-2">Delete</button>
+                                    <button hidden={!this.isAdmin()} onClick={this.editProject} className="btn btn-primary ml-2">Edit</button>
+                                    <button hidden={!this.isAdmin()} onClick={this.deleteProject} className="btn btn-danger ml-2">Delete</button>
                                 </div>
                             </div>
-
-
                             <div class="card card-outline-secondary my-4">
                                 <div class="card-header">
                                     Comments
@@ -154,6 +152,17 @@ class ProjectInfo extends Component {
 
     deleteProject = () => {
         window.location.href = "/delete-project/" + this.getProjectIdFromUrl();
+    }
+
+    isAdmin = () => {
+        const token = localStorage.getItem('token');
+        if (token == undefined || token == null) {
+            return false;
+        }
+        const jwtDecoder = new JwtDecoder();
+        const decodedToken = jwtDecoder.decodeToken(token);
+        const roles = decodedToken['roles'];
+        return roles.includes('ADMIN');
     }
 }
 
