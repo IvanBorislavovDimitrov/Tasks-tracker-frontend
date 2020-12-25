@@ -32,6 +32,7 @@ import ProjectMembers from './component/project-members';
 import OtherUserProfile from './component/other-user-profile';
 import DeleteProject from './component/delete-project';
 import EditProject from './component/edit-project';
+import BugBacklogChart from './component/bug-backlog-chart';
 
 function App() {
   setTimeout(function () {
@@ -72,6 +73,7 @@ function App() {
         <Route path="/other-user/profile/" component={OtherUserProfile} />
         <Route path="/delete-project/" component={DeleteProject} />
         <Route path="/edit-project/" component={EditProject} />
+        <Route path="/bug-backlog/chart/" component={BugBacklogChart} />
 
       </Switch>
     </BrowserRouter>
