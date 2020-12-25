@@ -13,11 +13,7 @@ class BugBacklogChart extends Component {
         return (
             <React.Fragment>
                 <div class="container">
-                    <div class="row my-3">
-                        <div class="col">
-                            <h4>Bugs/Backlog ratio</h4>
-                        </div>
-                    </div>
+
                     {/* <div class="row my-2">
                         <div class="col-md-6 py-1">
                             <div class="card">
@@ -37,8 +33,11 @@ class BugBacklogChart extends Component {
                     <div class="row py-2">
                         <div class="col-md-4 py-1">
                             <div class="card">
+                                    <div class="col text-center mt-3">
+                                        <h4>Bugs/Backlog ratio</h4>
+                                </div>
                                 <div class="card-body">
-                                    <canvas id="chDonut1"></canvas>
+                                    <canvas id="backlogs-bugs-donut"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -63,26 +62,53 @@ class BugBacklogChart extends Component {
     }
 
     componentDidMount() {
+        this.loadBacklogsBugsStatistic();
+    }
+
+    loadBacklogsBugsStatistic = () => {
+        const currentThis = this;
+        const projectId = this.getProjectIdFromUrl();
+        fetch(process.env.REACT_APP_URL + '/projects/backlogs-bugs/' + projectId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + localStorage.getItem('token')
+            }
+        }).then(async response => {
+            if (response.status !== 200) {
+                alert("Statistics haven't been loaded. Please reload the page!");
+                return;
+            }
+            const backlogsBugs = await response.json();
+            currentThis.loadBacklogsBugsChart(backlogsBugs['backlogsCount'], backlogsBugs['bugsCount']);
+        }).catch(error => alert(error));
+    }
+
+    loadBacklogsBugsChart = (backlogsCount, bugsCount) => {
+        if (backlogsCount == 0 && bugsCount == 0) {
+            backlogsCount = -1;
+            bugsCount = -1;
+        }
         const colors = ['#007bff', '#28a745', '#333333', '#c3e6cb', '#dc3545', '#6c757d'];
         const donutOptions = {
-            cutoutPercentage: 85,
+            cutoutPercentage: 60,
             legend: { position: 'bottom', padding: 5, labels: { pointStyle: 'circle', usePointStyle: true } }
         };
-        const chDonutData1 = {
+        const backlogsBugsData = {
             labels: ['Bug', 'Backlog'],
             datasets: [
                 {
                     backgroundColor: colors.slice(0, 3),
                     borderWidth: 0,
-                    data: [30, 70]
+                    data: [backlogsCount, bugsCount]
                 }
             ]
         };
-        const chDonut1 = document.getElementById("chDonut1");
-        if (chDonut1) {
-            new Chart(chDonut1, {
+        const backlogsBugsDonut = document.getElementById("backlogs-bugs-donut");
+        if (backlogsBugsDonut) {
+            new Chart(backlogsBugsDonut, {
                 type: 'pie',
-                data: chDonutData1,
+                data: backlogsBugsData,
                 options: donutOptions
             });
         }
@@ -93,6 +119,12 @@ class BugBacklogChart extends Component {
             [event.target.name]: event.target.value
         });
     };
+
+    getProjectIdFromUrl = () => {
+        const pageURL = window.location.href;
+        const lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
+        return lastURLSegment;
+    }
 }
 
 export default BugBacklogChart;
