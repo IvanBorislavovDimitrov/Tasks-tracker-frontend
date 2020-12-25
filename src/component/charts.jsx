@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import Chart from 'chart.js';
 
-class BugBacklogChart extends Component {
+class Charts extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,11 +33,21 @@ class BugBacklogChart extends Component {
                     <div class="row py-2">
                         <div class="col-md-4 py-1">
                             <div class="card">
-                                    <div class="col text-center mt-3">
-                                        <h4>Bugs/Backlog ratio</h4>
+                                <div class="col text-center mt-3">
+                                    <h4>Bugs/Backlog ratio chart</h4>
                                 </div>
                                 <div class="card-body">
                                     <canvas id="backlogs-bugs-donut"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 py-1">
+                            <div class="card">
+                                <div class="col text-center mt-3">
+                                    <h4>Tasks states chart</h4>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="tasks-states-donut"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -63,6 +73,7 @@ class BugBacklogChart extends Component {
 
     componentDidMount() {
         this.loadBacklogsBugsStatistic();
+        this.loadTasksStatesStatistic();
     }
 
     loadBacklogsBugsStatistic = () => {
@@ -82,6 +93,28 @@ class BugBacklogChart extends Component {
             const backlogsBugs = await response.json();
             currentThis.loadBacklogsBugsChart(backlogsBugs['backlogsCount'], backlogsBugs['bugsCount']);
         }).catch(error => alert(error));
+    }
+
+    loadTasksStatesStatistic = () => {
+        const currentThis = this;
+        const projectId = this.getProjectIdFromUrl();
+        fetch(process.env.REACT_APP_URL + '/projects/tasks-statistics/' + projectId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'bearer ' + localStorage.getItem('token')
+            }
+        }).then(async response => {
+            if (response.status !== 200) {
+                alert("Statistics haven't been loaded. Please reload the page!");
+                return;
+            }
+            const tasksStates = await response.json();
+            console.log(tasksStates)
+            currentThis.loadTasksStatesChart(tasksStates['backlogItems'], tasksStates['selectedItems'],
+                tasksStates['inProgressItems'], tasksStates['blockedItems'], tasksStates['completedItems']);
+        }).catch(error => alert(error));
+
     }
 
     loadBacklogsBugsChart = (backlogsCount, bugsCount) => {
@@ -112,6 +145,41 @@ class BugBacklogChart extends Component {
                 options: donutOptions
             });
         }
+
+    }
+
+    loadTasksStatesChart = (backlogItems, selectedItems, inProgressItems, blockedItems, completedItems) => {
+        if (backlogItems == 0 && selectedItems == 0 && inProgressItems == 0 && blockedItems == 0 && completedItems == 0) {
+            backlogItems = -1;
+            selectedItems = -1;
+            inProgressItems = -1;
+            blockedItems = -1;
+            completedItems = -1;
+        }
+        const colors = ['#007bff', '#28a745', '#333333', '#c3e6cb', '#dc3545', '#6c757d'];
+        const donutOptions = {
+            cutoutPercentage: 60,
+            legend: { position: 'bottom', padding: 5, labels: { pointStyle: 'circle', usePointStyle: true } }
+        };
+
+        const tasksStatesData = {
+            labels: ['Backlog', 'Selected', 'In Progress', 'Blocked', 'Completed'],
+            datasets: [
+                {
+                    backgroundColor: colors.slice(0, 5),
+                    borderWidth: 0,
+                    data: [backlogItems, selectedItems, inProgressItems, blockedItems, completedItems]
+                }
+            ]
+        };
+        const tasksStatesDonut = document.getElementById("tasks-states-donut");
+        if (tasksStatesDonut) {
+            new Chart(tasksStatesDonut, {
+                type: 'pie',
+                data: tasksStatesData,
+                options: donutOptions
+            });
+        }
     }
 
     changeInputField = event => {
@@ -127,4 +195,4 @@ class BugBacklogChart extends Component {
     }
 }
 
-export default BugBacklogChart;
+export default Charts;

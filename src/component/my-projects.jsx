@@ -53,7 +53,7 @@ class MyProjects extends Component {
                 const releaseProjectHref = '/release-project/' + project['id'];
                 const projectReleasesHref = '/project-releases/' + project['id'];
                 const projectMembersHref = "/members/project/" + project['id'];
-                const bugBacklogChartHref = '/bug-backlog/chart/' + project['id'];
+                const bugBacklogChartHref = '/charts/' + project['id'];
                 const projectElement = (<div id={project['id']} class="col-lg-3 col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
