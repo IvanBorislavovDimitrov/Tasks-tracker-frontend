@@ -31,6 +31,7 @@ import SearchTasks from './component/searched-tasks';
 import ProjectMembers from './component/project-members';
 import OtherUserProfile from './component/other-user-profile';
 import DeleteProject from './component/delete-project';
+import EditProject from './component/edit-project';
 
 function App() {
   setTimeout(function () {
@@ -70,6 +71,7 @@ function App() {
         <Route path="/members/project/" component={ProjectMembers} />
         <Route path="/other-user/profile/" component={OtherUserProfile} />
         <Route path="/delete-project/" component={DeleteProject} />
+        <Route path="/edit-project/" component={EditProject} />
 
       </Switch>
     </BrowserRouter>

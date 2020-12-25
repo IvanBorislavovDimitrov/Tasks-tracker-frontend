@@ -149,7 +149,7 @@ class ProjectInfo extends Component {
     };
 
     editProject = () => {
-
+        window.location.href = "/edit-project/" + this.getProjectIdFromUrl();
     }
 
     deleteProject = () => {
