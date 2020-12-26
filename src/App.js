@@ -33,6 +33,7 @@ import OtherUserProfile from './component/other-user-profile';
 import DeleteProject from './component/delete-project';
 import EditProject from './component/edit-project';
 import Charts from './component/charts';
+import ChangeUserRole from './component/change-user-role';
 
 function App() {
   setTimeout(function () {
@@ -74,6 +75,7 @@ function App() {
         <Route path="/delete-project/" component={DeleteProject} />
         <Route path="/edit-project/" component={EditProject} />
         <Route path="/charts/" component={Charts} />
+        <Route path="/change-user-role/" component={ChangeUserRole} />
 
       </Switch>
     </BrowserRouter>
