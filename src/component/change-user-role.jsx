@@ -12,9 +12,8 @@ class ChangeUserRole extends Component {
     render() {
         return (
             <React.Fragment>
-
-                <div className="col-md-4 mt-4 container">
-                    <div className="text-center border border-light p-5 card h-100 w-100">
+                <div className="col-md-4 container">
+                    <div className="text-center">
                         <div id="rolesTable" className="container mt-4">
                             <table className="table">
                                 <thead>
