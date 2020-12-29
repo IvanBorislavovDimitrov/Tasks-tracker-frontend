@@ -57,7 +57,7 @@ class EditProject extends Component {
                             </div>
                         </div>
                         <button onClick={this.editProject} className="btn btn-info btn-block">
-                            Add
+                            Edit
                         </button>
                     </div>
                 </div>
@@ -90,7 +90,6 @@ class EditProject extends Component {
             alert(error);
         })
     }
-
 
     editProject = () => {
         const projectNameInvalidForm = document.getElementById('projectNameInvalidForm');
@@ -136,7 +135,7 @@ class EditProject extends Component {
                 return;
             }
             alert("The project has been updated!");
-            window.location.href = '/';
+            window.location.href = '/projects/' + projectId ;
         }).catch(error => alert(error));
     }
 

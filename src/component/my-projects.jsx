@@ -54,11 +54,15 @@ class MyProjects extends Component {
                 const projectReleasesHref = '/project-releases/' + project['id'];
                 const projectMembersHref = "/members/project/" + project['id'];
                 const bugBacklogChartHref = '/charts/' + project['id'];
+                let projectDescription = project['description'];
+                if (projectDescription.length > 50) {
+                    projectDescription = projectDescription.substring(0, 50) + '...';
+                }
                 const projectElement = (<div id={project['id']} class="col-lg-3 col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
                             <h4 class="card-title">{project['name']}</h4>
-                            <p class="card-text">{project['description']}</p>
+                            <p class="card-text">{projectDescription    }</p>
                         </div>
                         <div class="card-footer">
                             <a href={href} class="btn btn-success btn-sm">Info</a>
@@ -70,7 +74,7 @@ class MyProjects extends Component {
                             <a href={projectMembersHref} class="btn btn-success btn-sm mr-3">Show Members</a>
                             <br></br>
                             <br></br>
-                            <a href={bugBacklogChartHref} class="btn btn-success btn-sm">Bug Backlog Chart</a>
+                            <a href={bugBacklogChartHref} class="btn btn-success btn-sm">Charts</a>
                         </div>
                         
                     </div>
